@@ -14,6 +14,11 @@ export const selectCartItems = createSelector(
 	(cart) => cart.cartItems
 );
 
+export const selectCartHidden = createSelector(
+	selectCart,
+	(cart) => cart.hidden
+);
+
 export const selectCartItemsCount = createSelector(
 	[selectCartItems],
 	(cartItems) =>
@@ -22,6 +27,14 @@ export const selectCartItemsCount = createSelector(
 				accumalatedQuantity + cartItem.quantity,
 			0
 		)
+);
+
+export const selectCartTotal = createSelector([selectCartItems], (cartItems) =>
+	cartItems.reduce(
+		(accumalatedQuantity, cartItem) =>
+			accumalatedQuantity + cartItem.quantity * cartItem.price,
+		0
+	)
 );
 
 /* Memoization helps in performance, using it, the component is only rendered if 
@@ -35,3 +48,9 @@ export const selectCartItemsCount = createSelector(
             and not after every state object return
             
 */
+
+// selectCart can be passed  (in case of multiple arguments)
+// as a array [selectCart1, selectCart2]
+// or just like in selectCartHidden above, successively.
+// selectCart1,
+// selectCart2, (cart1, cart2) => cart1.cartItems or something(eg)
