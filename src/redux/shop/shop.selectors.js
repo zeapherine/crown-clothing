@@ -21,3 +21,16 @@ export const selectCollection = memoize((collectionUrlParam) =>
 		(collections) => (collections ? collections[collectionUrlParam] : null) // data normalization
 	)
 );
+
+export const selectIsCollectionFetching = createSelector(
+	[selectShop],
+	(shop) => shop.isFetching
+);
+
+export const selectIsCollectionsLoaded = createSelector(
+	[selectShop],
+	(shop) => !!shop.collections
+	//return false if it is not loaded.
+	// false ( !!0 , !!''  , !null ) all will return false
+	// true  ( !!{} )  will return true.
+);
